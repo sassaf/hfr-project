@@ -1,20 +1,25 @@
 import cv2
 import numpy
 
-lower_blue = numpy.array([82, 100, 50])
-upper_blue = numpy.array([135, 255, 255])
-lower_green = numpy.array([43, 100, 50])
-upper_green = numpy.array([82, 255, 255])
-lower_purple = numpy.array([135, 100, 50])
-upper_purple = numpy.array([165, 255, 255])
-lower_red1 = numpy.array([165, 100, 50])
-upper_red1 = numpy.array([180, 255, 255])
-lower_red2 = numpy.array([0, 100, 50])
-upper_red2 = numpy.array([5, 255, 255])
-lower_orange = numpy.array([5, 100, 50])
-upper_orange = numpy.array([20, 255, 255])
-lower_yellow = numpy.array([20, 100, 50])
-upper_yellow = numpy.array([43, 255, 255])
+low_sat = 200
+high_sat = 255
+low_val = 50
+high_val = 255
+
+lower_blue = numpy.array([82, low_sat, low_val])
+upper_blue = numpy.array([135, high_sat, high_val])
+lower_green = numpy.array([43, low_sat, low_val])
+upper_green = numpy.array([82, high_sat, high_val])
+lower_purple = numpy.array([135, low_sat, low_val])
+upper_purple = numpy.array([165, high_sat, high_val])
+lower_red1 = numpy.array([165, low_sat, low_val])
+upper_red1 = numpy.array([180, high_sat, high_val])
+lower_red2 = numpy.array([0, low_sat, low_val])
+upper_red2 = numpy.array([5, high_sat, high_val])
+lower_orange = numpy.array([5, low_sat, low_val])
+upper_orange = numpy.array([20, high_sat, high_val])
+lower_yellow = numpy.array([20, low_sat, low_val])
+upper_yellow = numpy.array([43, high_sat, high_val])
 
 
 def setting_colors(frame, colors_list):
