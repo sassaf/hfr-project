@@ -14,7 +14,7 @@
 # chr(65)   # = 'A'
 
 #portName = 'COM6' # Windows will look like this
-portName = '/dev/ttyAMC0' #Unix looks like this
+portName = '/dev/ttyACM0' #Unix looks like this
 baudRate = 115200
 
 
@@ -46,13 +46,15 @@ def send_arduino(leftDirection, rightDirection, leftSpeed, rightSpeed):
 
     # Perform filtering
     # direction can be 0 or 1, speed is 0 to 255
-    if (leftDirection > 1 | leftDirection < 0):
+    leftSpeed = int(leftSpeed)
+    rightSpeed = int(rightSpeed)
+    if (leftDirection > 1 or leftDirection < 0):
             leftDirection = 0
-    if (rightDirection > 1 | rightDirection < 0):
+    if (rightDirection > 1 or rightDirection < 0):
             rightDirection = 0
-    if (leftSpeed > 255 | leftSpeed < 0):
-            leftDirection = 0
-    if (rightSpeed > 255 | rightSpeed < 0):
+    if (leftSpeed > 255 or leftSpeed < 0):
+            leftSpeed = 0
+    if (rightSpeed > 255 or rightSpeed < 0):
             rightSpeed = 0
 
 
@@ -65,13 +67,10 @@ def send_arduino(leftDirection, rightDirection, leftSpeed, rightSpeed):
     # Print to terminal then arduino
     print output
     ser.write(output)
-
     return ser
 
 # Closing the stream is a good idea but the while loop never reaches here	
 #ser.close()
-
-
 
 
 
