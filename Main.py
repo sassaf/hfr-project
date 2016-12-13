@@ -18,6 +18,8 @@ motor_speed=0
 last_size = 0
 no_object = False
 timer = 0
+spin_timer = 0
+full_turn=False
 followed_last_location = False
 last_positive = False
 
@@ -37,7 +39,7 @@ while(ret):
 
     stop_size = 50.0
     center = 320
-    kp=5
+    kp=4
     ki=0.08
     kpturn=0.7
     cv2.imshow('blobs', blobframe)
@@ -99,13 +101,13 @@ while(ret):
 
             speed = [motor_speed+turnvariable, motor_speed-turnvariable]
             #bounds for left motor
-            if (speed[0]> 175):
-                speed[0] = 175
+            if (speed[0]> 200):
+                speed[0] = 200
             elif(speed[0] <90):
                 speed[0] = 90
              #bounds for right motor
-            if (speed[1]> 175):
-                speed[1] = 175
+            if (speed[1]> 200):
+                speed[1] = 200
             elif(speed[1] <90):
                 speed[1] = 90
 
@@ -119,9 +121,7 @@ while(ret):
 
 
     if (not followed_last_location):
-        print('entered')
         if (no_object and (timer == 0)):
-            print 'here'
             start_time = time.clock()
             if last_size != 0:
                 #arbitrarily choose 0 speed as new speed
@@ -130,16 +130,11 @@ while(ret):
                 timer = one_sec_size/last_size
                 timer = timer*(speed[0]/175.0)
         elif (no_object and (timer > 0)):
-            print 'there'
             time_diff = time.clock() - start_time
             if (time_diff > timer):
-                print 'everywhere'
                 timer = 0
                 speed = (0,0)
                 followed_last_location = True
-
-    print 'timer', timer
-    print 'last location', followed_last_location
 
     if (last_positive):
         left = 1
@@ -148,11 +143,33 @@ while(ret):
         left = 0
         right = 0
 
+    #if (no_object and (direction == -1)):
+        #if (followed_last_location and (not full_turn) and (spin_timer<=0)):
+            #print "spin to win"
+            #spin_start_time = time.clock()
+            #left = 1
+            #right = 0
+            #speed = (125,125)
+            #spin_timer = 5.5
+        #elif (spin_timer > 0):
+            #spin_diff = time.clock() - spin_start_time
+            #print spin_diff
+            #print spin_timer
+            #left = 1
+            #right = 0
+            #speed = (125,125)
+            #if (spin_diff > spin_timer):
+                #spin_timer = 0
+                #full_turn = True
+                #speed = (0,0)
+    #else:
+        #full_turn = False
+
     st - time.clock()
 
-    if ((direction == -1) and (np.abs(Error)<10)):
+    if ((direction == -1) and (np.abs(Error)<7)):
         speed = (0,0)
-    elif ((direction == +1) and (np.abs(Error)<20)):
+    elif ((direction == +1) and (np.abs(Error)<10)):
         speed = (0,0)
 
     ser = RXTX.send_arduino(left, right, speed[0], speed[1])

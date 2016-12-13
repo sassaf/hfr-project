@@ -3,6 +3,7 @@ import numpy
 import color_editing
 import serial
 import RXTX
+import blob_detection
 
 camera = cv2.VideoCapture(0);
 
@@ -10,6 +11,7 @@ color = 'blue'
 colors_list = [color]
 
 ret, frame = camera.read()
+count=0
 
 while (ret):
     ret, frame = camera.read()
@@ -29,6 +31,9 @@ while (ret):
 
     nothing=False
 
+    #Initialize values
+    left = 1
+    right = 1
     speed=(0,0) #left, right
 
     if (c_count < 500):
@@ -50,6 +55,36 @@ while (ret):
         #nothing
 
 
+
+    ##PID
+
+
+    #error = Pixels want - Pixels_Actual
+
+    #if count < 20
+        #ErrArray[count]=error
+    #elif
+        #ErrArray
+
+    #count++
+
+    #Kp=1
+    #Ki=0
+    #Kd=0
+
+
+    #P= Kp*error
+    #I=Ki*numpy.trapz(ErrArray)
+
+    #for n in ErrArray
+        #slope[n]=numpy.diff(ErrArry,n)
+
+    #D=Kd*sum(slope)/len(slope)
+
+    #output = P=I+D
+    #speed= 255*output
+
+
     #turning
     left_turn_roi=color_mask[ 0:480, 0:200]
     left_count = cv2.countNonZero(left_turn_roi)
@@ -59,6 +94,7 @@ while (ret):
 
     right_turn_roi=color_mask[ 0:480, 440:640]
     right_count = cv2.countNonZero(right_turn_roi)
+
 
     if ((not nothing) and (left_count > right_count) and (left_count > no_count)):
         #turn left yo
@@ -75,7 +111,7 @@ while (ret):
     cv2.putText(filtered_frame, str(speed), (0,400), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 5, 8)
     cv2.putText(filtered_frame, c_count_string, (0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 5, 8)
     cv2.imshow("{} Filtered Frame".format(name), filtered_frame)
-    #cv2.imshow('Full Color Image', frame)
+    cv2.imshow('Full Color Image', frame)
 
     ser = RXTX.send_arduino(left, right, speed[0], speed[1])
 
