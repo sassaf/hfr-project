@@ -1,7 +1,7 @@
 import cv2
 import numpy
 
-low_sat = 200
+low_sat = 100
 high_sat = 255
 low_val = 50
 high_val = 255

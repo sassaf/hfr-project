@@ -15,7 +15,7 @@
 
 #portName = 'COM6' # Windows will look like this
 portName = '/dev/ttyACM0' #Unix looks like this
-baudRate = 115200
+baudRate = 38400
 
 
 import serial
